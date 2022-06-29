@@ -1,7 +1,7 @@
 package com.hr.neo4j.service.impl;
 
 import com.hr.neo4j.dao.DirectedRepository;
-import com.hr.neo4j.dao.DirectedReverseRepository;
+//import com.hr.neo4j.dao.DirectedReverseRepository;
 import com.hr.neo4j.model.*;
 import com.hr.neo4j.service.DirectedService;
 import com.hr.neo4j.service.MovieService;
@@ -22,8 +22,8 @@ public class DirectedServiceImpl implements DirectedService {
     private PersonService personService;
     @Resource
     private MovieService movieService;
-    @Resource
-    private DirectedReverseRepository directedReverseRepository;
+//    @Resource
+//    private DirectedReverseRepository directedReverseRepository;
 
 
     /* *
@@ -150,19 +150,19 @@ public class DirectedServiceImpl implements DirectedService {
         // 判断添加关系类型
         // type = 1     person -> movie
         // type = 2     movie -> person
-        if (type != null && type == 2) {  //movie -> person
-            DirectedNodeReverse directedNodeReverse = new DirectedNodeReverse();
-            directedNodeReverse.setStartNode(movie);
-            directedNodeReverse.setEndNode(person);
-            directedNodeReverse.setLable(lable);
-            directedReverseRepository.save(directedNodeReverse);
-        } else {  // 默认是  person -> movie
+//        if (type != null && type == 2) {  //movie -> person
+//            DirectedNodeReverse directedNodeReverse = new DirectedNodeReverse();
+//            directedNodeReverse.setStartNode(movie);
+//            directedNodeReverse.setEndNode(person);
+//            directedNodeReverse.setLable(lable);
+//            directedReverseRepository.save(directedNodeReverse);
+//        } else {  // 默认是  person -> movie
             Directed directed = new Directed();
             directed.setStartNode(person);
             directed.setEndNode(movie);
             directed.setLable(lable);
             directedRepository.save(directed);
-        }
+//        }
         return Boolean.TRUE;
     }
 
