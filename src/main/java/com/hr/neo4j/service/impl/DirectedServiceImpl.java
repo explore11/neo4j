@@ -1,7 +1,6 @@
 package com.hr.neo4j.service.impl;
 
 import com.hr.neo4j.dao.DirectedRepository;
-//import com.hr.neo4j.dao.DirectedReverseRepository;
 import com.hr.neo4j.model.*;
 import com.hr.neo4j.service.DirectedService;
 import com.hr.neo4j.service.MovieService;
@@ -22,8 +21,6 @@ public class DirectedServiceImpl implements DirectedService {
     private PersonService personService;
     @Resource
     private MovieService movieService;
-//    @Resource
-//    private DirectedReverseRepository directedReverseRepository;
 
 
     /* *
@@ -40,10 +37,15 @@ public class DirectedServiceImpl implements DirectedService {
     }
 
     @Override
-    public List<Directed> getSourceAndTargetAllRelationBySourceNodeId(Long sourceNodeId) {
-        List<Directed> list = directedRepository.getSourceAndTargetAllRelationBySourceNodeId(sourceNodeId);
-        System.out.println(list);
-        return list;
+    public Map<String, Object> getSourceAndTargetAllRelationBySourceNodeId(Long sourceNodeId) {
+
+        // 获取数据
+        List<Person> personList = directedRepository.getSourceNodeBySourceNodeId(sourceNodeId);
+        List<Movie> movieList = directedRepository.getTargetNodeBySourceNodeId(sourceNodeId);
+        List<Directed> directedList = directedRepository.getSourceAndTargetAllRelationBySourceNodeId(sourceNodeId);
+
+        // 返回数据
+        return getIntegrationData(personList, movieList, directedList);
     }
 
     /* *
@@ -72,7 +74,13 @@ public class DirectedServiceImpl implements DirectedService {
         List<Person> personList = personService.selectAllPerson();
         List<Movie> movieList = movieService.selectAllMovie();
         List<Directed> selectAllRelation = this.selectAllRelation();
-        // 组装数据
+
+        // 返回结果
+        return getIntegrationData(personList, movieList, selectAllRelation);
+    }
+
+    // 组装数据
+    private Map<String, Object> getIntegrationData(List<Person> personList, List<Movie> movieList, List<Directed> selectAllRelation) {
         if (!CollectionUtils.isEmpty(selectAllRelation)) {
             for (Directed directed : selectAllRelation) {
                 directed.setSource(String.valueOf(directed.getStartNode().getId()));
@@ -85,7 +93,6 @@ public class DirectedServiceImpl implements DirectedService {
         map.put("personList", personList);
         map.put("movieList", movieList);
         map.put("selectAllRelation", selectAllRelation);
-
         return map;
     }
 
@@ -99,7 +106,8 @@ public class DirectedServiceImpl implements DirectedService {
      */
     @Override
     public Boolean delDirectedById(Long relationId) {
-        directedRepository.delDirectedById(relationId);
+//        directedRepository.delDirectedById(relationId);
+        directedRepository.deleteById(relationId);
         return Boolean.TRUE;
     }
 
@@ -138,31 +146,21 @@ public class DirectedServiceImpl implements DirectedService {
     @Override
     public Boolean addDirected(DirectedVo directedVo) {
 
-        // 获取对应的节点信息
+        // 获取属性值
         Long personId = directedVo.getPersonId();
         Long movieId = directedVo.getMovieId();
-        Integer type = directedVo.getType();
         String lable = directedVo.getLable();
 
+        // 获取对应的节点信息
         Person person = personService.findOnePerson(personId);
         Movie movie = movieService.findOneMovie(movieId);
 
-        // 判断添加关系类型
-        // type = 1     person -> movie
-        // type = 2     movie -> person
-//        if (type != null && type == 2) {  //movie -> person
-//            DirectedNodeReverse directedNodeReverse = new DirectedNodeReverse();
-//            directedNodeReverse.setStartNode(movie);
-//            directedNodeReverse.setEndNode(person);
-//            directedNodeReverse.setLable(lable);
-//            directedReverseRepository.save(directedNodeReverse);
-//        } else {  // 默认是  person -> movie
-            Directed directed = new Directed();
-            directed.setStartNode(person);
-            directed.setEndNode(movie);
-            directed.setLable(lable);
-            directedRepository.save(directed);
-//        }
+        //保存关系
+        Directed directed = new Directed();
+        directed.setStartNode(person);
+        directed.setEndNode(movie);
+        directed.setLable(lable);
+        directedRepository.save(directed);
         return Boolean.TRUE;
     }
 

@@ -2,6 +2,7 @@ package com.hr.neo4j.controller;
 
 import com.hr.neo4j.model.Movie;
 import com.hr.neo4j.service.MovieService;
+import com.hr.neo4j.util.RequestVo;
 import com.hr.neo4j.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,8 +36,11 @@ public class MovieController {
         return Result.success(Boolean.TRUE);
     }
 
-
-
+    @PostMapping("/findMovieList")
+    @ApiOperation(value = "查询电影列表")
+    public Result findMovieList(@RequestBody RequestVo pageRequest) {
+        return Result.success(movieService.findMovieList(pageRequest));
+    }
 
 
 }

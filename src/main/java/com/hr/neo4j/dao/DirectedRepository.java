@@ -1,6 +1,8 @@
 package com.hr.neo4j.dao;
 
 import com.hr.neo4j.model.Directed;
+import com.hr.neo4j.model.Movie;
+import com.hr.neo4j.model.Person;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
@@ -30,4 +32,11 @@ public interface DirectedRepository extends Neo4jRepository<Directed, Long> {
 
     @Query("MATCH p=(n)-[r:directed]->(m) where id(n)=$sourceNodeId RETURN p")
     List<Directed> getSourceAndTargetAllRelationBySourceNodeId(Long sourceNodeId);
+
+    @Query("MATCH p=(n)-[r:directed]->(m) where id(n)=$sourceNodeId RETURN n")
+    List<Person> getSourceNodeBySourceNodeId(Long sourceNodeId);
+
+    @Query("MATCH p=(n)-[r:directed]->(m) where id(n)=$sourceNodeId RETURN m")
+    List<Movie> getTargetNodeBySourceNodeId(Long sourceNodeId);
+
 }

@@ -2,6 +2,8 @@ package com.hr.neo4j.service;
 
 import com.hr.neo4j.model.Directed;
 import com.hr.neo4j.model.DirectedVo;
+import com.hr.neo4j.model.Movie;
+import com.hr.neo4j.model.Person;
 
 import java.util.List;
 import java.util.Map;
@@ -9,9 +11,9 @@ import java.util.Map;
 public interface DirectedService {
 
 
-    Boolean addDirected( DirectedVo directedVo);
+    Boolean addDirected(DirectedVo directedVo);
 
-    Boolean delDirected(String personName, String movieTitle,Integer type);
+    Boolean delDirected(String personName, String movieTitle, Integer type);
 
     Boolean delAllDirected();
 
@@ -19,12 +21,11 @@ public interface DirectedService {
 
     List<Directed> selectAllRelation();
 
-
     Boolean delDirectedById(Long relationId);
 
     Boolean delNodeAndRelationByNodeId(Long nodeId);
 
-    List<Directed> getSourceAndTargetAllRelationBySourceNodeId(Long sourceNodeId);
+    Map<String, Object> getSourceAndTargetAllRelationBySourceNodeId(Long sourceNodeId);
 
     Boolean addRelationList(List<DirectedVo> directedVoList);
 }
