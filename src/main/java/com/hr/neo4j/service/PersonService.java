@@ -17,4 +17,5 @@ public interface PersonService {
 
     List<Person> selectAllPerson();
 
+    Person updatePerson(Person person);
 }

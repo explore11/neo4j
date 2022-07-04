@@ -6,6 +6,7 @@ import com.hr.neo4j.model.Movie;
 import com.hr.neo4j.model.Person;
 import com.hr.neo4j.service.MovieService;
 import com.hr.neo4j.service.PersonService;
+import com.hr.neo4j.util.Constant;
 import com.hr.neo4j.util.RequestVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,17 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
     @Resource
     private MovieRepository movieRepository;
+
+
+
+    @Override
+    public Movie updateMovie(Movie movie) {
+        Long movieId = movie.getId();
+        Integer size = movie.getSize();
+        String title = movie.getTitle();
+        Integer released = movie.getReleased();
+        return movieRepository.updateMovie(movieId,size,title,released);
+    }
 
     @Override
     public Page<Movie> findMovieList(RequestVo requestVo) {
@@ -32,6 +44,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie addMovie(Movie movie) {
+        movie.setType(Constant.MOVIE_TYPE);
         return movieRepository.save(movie);
     }
 

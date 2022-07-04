@@ -8,4 +8,4 @@ spring:
     name: neo4j-server
 
 server:
-  port: 8899
+  port: 9999

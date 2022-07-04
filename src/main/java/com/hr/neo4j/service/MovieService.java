@@ -16,4 +16,6 @@ public interface MovieService {
     List<Movie> selectAllMovie();
 
     Page<Movie> findMovieList(RequestVo pageRequest);
+
+    Movie updateMovie(Movie movie);
 }

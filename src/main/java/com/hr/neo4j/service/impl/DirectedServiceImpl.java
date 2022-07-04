@@ -23,6 +23,15 @@ public class DirectedServiceImpl implements DirectedService {
     private MovieService movieService;
 
 
+
+    @Override
+    public Directed updateDirected(DirectedVo directedVo) {
+        Long directedId = directedVo.getId();
+        String label = directedVo.getLabel();
+        //MATCH ()-[r:relation]->() where id(r)=33 set r.name="师生以" RETURN r
+        return directedRepository.updateDirected(directedId,label);
+    }
+
     /* *
      *
      * @param directedVoList
@@ -145,22 +154,31 @@ public class DirectedServiceImpl implements DirectedService {
      */
     @Override
     public Boolean addDirected(DirectedVo directedVo) {
-
         // 获取属性值
         Long personId = directedVo.getPersonId();
         Long movieId = directedVo.getMovieId();
-        String lable = directedVo.getLable();
+        String label = directedVo.getLabel();
+        Integer type = directedVo.getType();
 
         // 获取对应的节点信息
         Person person = personService.findOnePerson(personId);
         Movie movie = movieService.findOneMovie(movieId);
 
         //保存关系
-        Directed directed = new Directed();
-        directed.setStartNode(person);
-        directed.setEndNode(movie);
-        directed.setLable(lable);
-        directedRepository.save(directed);
+        if (type == null || type == 1) {  // person --> movie
+            Directed directed = new Directed();
+            directed.setStartNode(person);
+            directed.setEndNode(movie);
+            directed.setLabel(label);
+            directedRepository.save(directed);
+        } else if (type == 2) { // movie  --> person
+            directedRepository.saveRelationReverse(personId, movieId, label);
+        } else if (type == 3) { // 创建双向连接
+            // 建立双向连接
+            String reverseLabel = directedVo.getReverseLable();
+            directedRepository.saveRelation(personId, movieId, label, reverseLabel);
+        }
+
         return Boolean.TRUE;
     }
 

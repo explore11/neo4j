@@ -18,6 +18,7 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
     @Query("MATCH (n:Person) RETURN n")
     List<Person> selectAllPerson();
 
-
+    @Query("MATCH (p:Person) where id(p)=$personId set p.size=$size,p.name=$title,p.born=$born return p")
+    Person updatePerson(Long personId,Integer size, String title, Integer born);
 }
 

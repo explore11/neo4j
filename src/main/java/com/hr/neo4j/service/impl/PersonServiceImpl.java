@@ -3,6 +3,7 @@ package com.hr.neo4j.service.impl;
 import com.hr.neo4j.dao.PersonRepository;
 import com.hr.neo4j.model.Person;
 import com.hr.neo4j.service.PersonService;
+import com.hr.neo4j.util.Constant;
 import com.hr.neo4j.util.RequestVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,15 @@ public class PersonServiceImpl implements PersonService {
     @Resource
     private PersonRepository personRepository;
 
+
+    @Override
+    public Person updatePerson(Person person) {
+        Long personId = person.getId();
+        Integer size = person.getSize();
+        String title = person.getTitle();
+        Integer born = person.getBorn();
+        return personRepository.updatePerson(personId,size,title,born);
+    }
 
     @Override
     public List<Person> selectAllPerson() {
@@ -35,6 +45,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person addPerson(Person person) {
+        person.setType(Constant.PERSON_TYPE);
         return personRepository.save(person);
     }
 

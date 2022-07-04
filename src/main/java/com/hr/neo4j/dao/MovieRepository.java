@@ -12,4 +12,6 @@ public interface MovieRepository extends Neo4jRepository<Movie, Long> {
     @Query("MATCH (n:Movie) RETURN n")
     List<Movie> selectAllMovie();
 
+    @Query("MATCH (m:Movie) where id(m)=$movieId  set m.size=$size,n.title=$title,n.released=$released return m")
+    Movie updateMovie(Long movieId,Integer size, String title, Integer released);
 }

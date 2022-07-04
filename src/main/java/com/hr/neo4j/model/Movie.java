@@ -25,4 +25,7 @@ public class Movie {
     @Property(name = "size")
     private int size;
 
+    @Property(name = "type")
+    private String type;
+
 }

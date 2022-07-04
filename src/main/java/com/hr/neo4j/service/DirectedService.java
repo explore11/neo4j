@@ -28,4 +28,6 @@ public interface DirectedService {
     Map<String, Object> getSourceAndTargetAllRelationBySourceNodeId(Long sourceNodeId);
 
     Boolean addRelationList(List<DirectedVo> directedVoList);
+
+    Directed updateDirected(DirectedVo directedVo);
 }

@@ -24,6 +24,13 @@ public class PersonController {
         return Result.success(personService.addPerson(person));
     }
 
+    @PostMapping("updatePerson")
+    @ApiOperation(value = "修改人")
+    public Result updatePerson(@RequestBody Person person) {
+        return Result.success(personService.updatePerson(person));
+    }
+
+
     @GetMapping("/findOnePerson/{id}")
     @ApiOperation(value = "根据ID查询")
     public Result findOnePerson(@PathVariable("id") String id) {

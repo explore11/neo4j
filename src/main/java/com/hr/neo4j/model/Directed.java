@@ -17,7 +17,7 @@ public class Directed {
     private Long id;
 
     @Property(name = "lable")
-    private String lable;
+    private String label;
 
     @StartNode
     private Person startNode;

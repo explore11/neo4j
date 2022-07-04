@@ -17,11 +17,24 @@ public class DirectController {
     @Resource
     private DirectedService directedService;
 
+    // 创建节点并添加关系
+    //match(m:Movie) where id(m) = 44
+    //create(p:Person{name:"小四",age:23,type:"Person",size:30,born:10})
+    //create (p)-[r:directed]->(m) return r
+
+
     @PostMapping("/addDirected")
     @ApiOperation(value = " 添加关系  导演(人与电影的关系) 人 → 电影")
     public Result addDirected(@RequestBody DirectedVo directedVo) {
         return Result.success(directedService.addDirected(directedVo));
     }
+
+    @PostMapping("/updateDirectedById")
+    @ApiOperation(value = " 根据id修改关系")
+    public Result updateDirected(@RequestBody DirectedVo directedVo) {
+        return Result.success(directedService.updateDirected(directedVo));
+    }
+
 
     @GetMapping("/delDirected")
     @ApiOperation(value = "根据person的属性名和电影标题删除关系")

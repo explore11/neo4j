@@ -15,6 +15,9 @@ public interface DirectedRepository extends Neo4jRepository<Directed, Long> {
     @Query("match (p:Person{name:$personName})-[r:directed]->(m:Movie{title:$movieTitle}) delete r")
     Boolean delDirected(String personName, String movieTitle);
 
+//    @Query("")
+//    Directed saveRelationReverse(Long personId, Long movieId);
+
     @Query("match (m:Movie{title:$movieTitle})-[r:directed]->(p:Person{name:$personName}) delete r")
     Boolean delDirectedReverse(String movieTitle, String personName);
 
@@ -24,7 +27,9 @@ public interface DirectedRepository extends Neo4jRepository<Directed, Long> {
     @Query("MATCH p=()-[r:directed]->() RETURN p")
     List<Directed> selectAllRelation();
 
-    @Query("MATCH (n) WHERE id(n) = $nodeId DETACH delete n")
+    @Query("MATCH (r)\n" +
+            "WHERE id(r) = $nodeId\n" +
+            "DETACH DELETE r")
     void delNodeAndRelationByNodeId(Long nodeId);
 
     @Query("MATCH (p:Person)-[r:directed]-(m:Movie) where id(r)= $relationId delete r")
@@ -39,4 +44,12 @@ public interface DirectedRepository extends Neo4jRepository<Directed, Long> {
     @Query("MATCH p=(n)-[r:directed]->(m) where id(n)=$sourceNodeId RETURN m")
     List<Movie> getTargetNodeBySourceNodeId(Long sourceNodeId);
 
+    @Query("match (p:Person) where id(p)=$personId match (m:Movie) where id(m)=$movieId create (m)-[r:directed{lable:$label}]->(p) return r")
+    Directed saveRelationReverse(Long personId, Long movieId, String label);
+
+    @Query("match (p:Person) where id(p)=$personId match (m:Movie) where id(m)=$movieId create(p)-[pm:directed{lable:$label}]->(m) create (m)-[mp:directed{lable:$reverseLabel}]->(p) return st,ts")
+    List<Directed> saveRelation(Long personId, Long movieId, String label, String reverseLabel);
+
+    @Query("MATCH ()-[r:directed]->() where id(r)=33 set r.lable=$label RETURN r")
+    Directed updateDirected(Long directedId, String label);
 }

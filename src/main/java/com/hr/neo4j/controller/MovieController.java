@@ -23,6 +23,7 @@ public class MovieController {
         return Result.success(movieService.addMovie(movie));
     }
 
+
     @GetMapping("/findOneMovie/{id}")
     @ApiOperation(value = "根据id查找电影")
     public Result findOneMovie(@PathVariable("id") String id) {
@@ -41,6 +42,13 @@ public class MovieController {
     public Result findMovieList(@RequestBody RequestVo pageRequest) {
         return Result.success(movieService.findMovieList(pageRequest));
     }
+
+    @PutMapping("/updateMovie")
+    @ApiOperation(value = "更新电影")
+    public Result updateMovie(@RequestBody Movie movie) {
+        return Result.success(movieService.updateMovie(movie));
+    }
+
 
 
 }
