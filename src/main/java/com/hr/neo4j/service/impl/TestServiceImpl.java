@@ -61,10 +61,10 @@ public class TestServiceImpl implements TestService {
             Directed directed = new Directed();
             directed.setLabel("参演");
 
-            int nextPersonInt = random.nextInt(100);
+            int nextPersonInt = random.nextInt(num);
             directed.setStartNode(personMap.get(nextPersonInt));
 
-            int nextMovieInt = random.nextInt(100);
+            int nextMovieInt = random.nextInt(num);
             directed.setEndNode(movieMap.get(nextMovieInt));
 
             directedList.add(directed);
@@ -97,7 +97,7 @@ public class TestServiceImpl implements TestService {
 
         int i = 0;
         Iterator<Movie> iterator = movies.iterator();
-        if (iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Movie next = iterator.next();
             movieMap.put(i++, next);
         }
@@ -123,7 +123,7 @@ public class TestServiceImpl implements TestService {
 
         int i = 0;
         Iterator<Person> iterator = peoples.iterator();
-        if (iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Person next = iterator.next();
             personMap.put(i++, next);
         }
