@@ -1,6 +1,7 @@
 package com.hr.neo4j.controller;
 
 import com.hr.neo4j.service.ReaderDataService;
+import com.hr.neo4j.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +28,9 @@ public class ReaderDataController {
      */
     @ApiOperation("导入数据")
     @PostMapping("/ImportData")
-    public void ImportData(@RequestParam("file") MultipartFile file) throws IOException {
+    public Result ImportData(@RequestParam("file") MultipartFile file) throws IOException {
         readerDataService.ImportData(file);
+        return Result.success();
     }
 
 }
