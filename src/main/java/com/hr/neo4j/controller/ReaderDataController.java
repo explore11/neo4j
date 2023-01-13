@@ -30,7 +30,7 @@ public class ReaderDataController {
     @PostMapping("/ImportData")
     public Result ImportData(@RequestParam("file") MultipartFile file) throws IOException {
         readerDataService.ImportData(file);
-        return Result.success();
+        return Result.success(Boolean.TRUE);
     }
 
 }

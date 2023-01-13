@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.*;
 
-@NodeEntity(label = "Relationship")
+@RelationshipEntity(type = "Relationship")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

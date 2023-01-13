@@ -74,7 +74,7 @@ public class RelationshipConstant {
     /**
      * 系统      ==========>  设备                 包含
      */
-    public static final String STACK_TYPE_TO_FACILITY_CONTAIN_RELATIONSHIP_NAME = "包含";
+    public static final String INVOLVE_SYSTEM_TO_FACILITY_CONTAIN_RELATIONSHIP_NAME = "包含";
 
     /**
      * 设备      ==========>  事件后果             设备的可能后果

@@ -24,4 +24,9 @@ public class Node {
     @Property(name = "actualId")
     private String actualId;
 
+
+    @Property(name = "type")
+    private String type;
+
+
 }
