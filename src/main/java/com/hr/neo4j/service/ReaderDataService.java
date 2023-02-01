@@ -11,7 +11,7 @@ public interface ReaderDataService {
      * 导入数据
      * @param file
      */
-    void ImportData(MultipartFile file) throws IOException;
+    Boolean ImportData(MultipartFile file) throws IOException;
 
     /**
      * 解析数据

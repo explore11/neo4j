@@ -16,6 +16,7 @@ import com.hr.neo4j.util.RelationshipConstant;
 import com.hr.neo4j.util.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,8 +42,9 @@ public class ReaderDataServiceImpl implements ReaderDataService {
      * @param file
      */
     @Override
-    public void ImportData(MultipartFile file) throws IOException {
+    public Boolean ImportData(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), FileData.class, new EasyExcelListener()).sheet().headRowNumber(1).doRead();
+        return Boolean.TRUE;
     }
 
 
@@ -51,6 +53,7 @@ public class ReaderDataServiceImpl implements ReaderDataService {
      *
      * @param fileDataList
      */
+    @Transactional
     @Override
     public void parseData(List<FileData> fileDataList) {
         //定义集合
@@ -841,7 +844,8 @@ public class ReaderDataServiceImpl implements ReaderDataService {
      * @param eventConsequenceNodeList            事件后果
      * @param processMeasureNodeList              处置措施
      */
-    private void createAllEntityNode(List<Node> eventCodeNodeList, List<Node> eventLevelNodeList, List<Node> powerPlantUnitNodeList, List<Node> stackTypeNodeList, List<Node> directCauseNodeList, List<Node> rootCauseNodeList, List<Node> involveSystemNodeList, List<Node> involveFacilityNodeList, List<Node> eventDetectionAndProtectionNodeList, List<Node> eventConsequenceNodeList, List<Node> processMeasureNodeList) {
+    @Transactional
+    public void createAllEntityNode(List<Node> eventCodeNodeList, List<Node> eventLevelNodeList, List<Node> powerPlantUnitNodeList, List<Node> stackTypeNodeList, List<Node> directCauseNodeList, List<Node> rootCauseNodeList, List<Node> involveSystemNodeList, List<Node> involveFacilityNodeList, List<Node> eventDetectionAndProtectionNodeList, List<Node> eventConsequenceNodeList, List<Node> processMeasureNodeList) {
         //创建获取事件编码节点
         if (!CollectionUtils.isEmpty(eventCodeNodeList)) {
             nodeRepository.saveAll(eventCodeNodeList);
@@ -909,7 +913,8 @@ public class ReaderDataServiceImpl implements ReaderDataService {
      * @param involveFacilityToEventConsequenceRelationshipList      设备      ==========>  事件后果             设备的可能后果
      * @param involveFacilityToAffectFacilityRelationshipList        设备      ==========>  受影响的设备          可能影响的设备
      */
-    private void saveAllRelationship(List<Relationship> eventCodeToEventLevelRelationshipList, List<Relationship> eventCodeToPowerPlantUnitRelationshipList, List<Relationship> eventCodeToStackTypeRelationshipList, List<Relationship> eventCodeToDirectCauseRelationshipList, List<Relationship> eventCodeToRootCauseRelationshipList, List<Relationship> eventCodeToInvolveSystemRelationshipList, List<Relationship> eventCodeToInvolveFacilityRelationshipList, List<Relationship> eventCodeToAffectFacilityRelationshipList, List<Relationship> eventCodeToEventDetectionAndProtectionRelationshipList, List<Relationship> eventCodeToEventConsequenceRelationshipList, List<Relationship> eventCodeToProcessMeasureRelationshipList, List<Relationship> powerPlantUnitToStackTypeRelationshipList, List<Relationship> stackTypeToInvolveSystemRelationshipList, List<Relationship> involveSystemToInvolveFacilityRelationshipList, List<Relationship> involveFacilityToEventConsequenceRelationshipList, List<Relationship> involveFacilityToAffectFacilityRelationshipList) {
+    @Transactional
+    public void saveAllRelationship(List<Relationship> eventCodeToEventLevelRelationshipList, List<Relationship> eventCodeToPowerPlantUnitRelationshipList, List<Relationship> eventCodeToStackTypeRelationshipList, List<Relationship> eventCodeToDirectCauseRelationshipList, List<Relationship> eventCodeToRootCauseRelationshipList, List<Relationship> eventCodeToInvolveSystemRelationshipList, List<Relationship> eventCodeToInvolveFacilityRelationshipList, List<Relationship> eventCodeToAffectFacilityRelationshipList, List<Relationship> eventCodeToEventDetectionAndProtectionRelationshipList, List<Relationship> eventCodeToEventConsequenceRelationshipList, List<Relationship> eventCodeToProcessMeasureRelationshipList, List<Relationship> powerPlantUnitToStackTypeRelationshipList, List<Relationship> stackTypeToInvolveSystemRelationshipList, List<Relationship> involveSystemToInvolveFacilityRelationshipList, List<Relationship> involveFacilityToEventConsequenceRelationshipList, List<Relationship> involveFacilityToAffectFacilityRelationshipList) {
         // 事件编码   ==========>  事件级别            级别
         relationshipRepository.saveAll(eventCodeToEventLevelRelationshipList);
         // 事件编码   ==========>  电厂机组            发生

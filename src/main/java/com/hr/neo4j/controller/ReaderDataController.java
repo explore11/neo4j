@@ -29,8 +29,8 @@ public class ReaderDataController {
     @ApiOperation("导入数据")
     @PostMapping("/ImportData")
     public Result ImportData(@RequestParam("file") MultipartFile file) throws IOException {
-        readerDataService.ImportData(file);
-        return Result.success(Boolean.TRUE);
+        Boolean flag = readerDataService.ImportData(file);
+        return Result.success(flag);
     }
 
 }
