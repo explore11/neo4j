@@ -9,6 +9,7 @@ import java.util.List;
 public interface ReaderDataService {
     /**
      * 导入数据
+     *
      * @param file
      */
     Boolean ImportData(MultipartFile file) throws IOException;
@@ -17,4 +18,14 @@ public interface ReaderDataService {
      * 解析数据
      */
     void parseData(List<FileData> fileDataList);
+
+    /**
+     * 删除所有关系、节点数据
+     *
+     * @return
+     */
+    Boolean delAllData();
+
+
+
 }

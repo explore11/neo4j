@@ -10,10 +10,7 @@ import com.hr.neo4j.dao.RelationshipRepository;
 import com.hr.neo4j.exception.MicroServiceException;
 import com.hr.neo4j.listener.EasyExcelListener;
 import com.hr.neo4j.service.ReaderDataService;
-import com.hr.neo4j.util.IdUtils;
-import com.hr.neo4j.util.NodeConstant;
-import com.hr.neo4j.util.RelationshipConstant;
-import com.hr.neo4j.util.ResultCode;
+import com.hr.neo4j.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +32,17 @@ public class ReaderDataServiceImpl implements ReaderDataService {
 
     @Resource
     private RelationshipRepository relationshipRepository;
+
+
+    /**
+     * 删除所有关系、节点数据
+     * @return
+     */
+    @Override
+    public Boolean delAllData() {
+        nodeRepository.deleteAll();
+        return Boolean.TRUE;
+    }
 
     /**
      * 导入数据
@@ -61,7 +69,7 @@ public class ReaderDataServiceImpl implements ReaderDataService {
 
         //清晰数据 去除全部为空的对象
         for (FileData fileData : fileDataList) {
-            if (!checkObjAllFieldsIsNull(fileData)) {
+            if (!DataCheckUtils.checkObjAllFieldsIsNull(fileData)) {
                 clearAfterDataList.add(fileData);
             }
         }
@@ -950,29 +958,29 @@ public class ReaderDataServiceImpl implements ReaderDataService {
     }
 
 
-    /**
-     * 判断属性中的所有内容为空
-     *
-     * @param object
-     * @return
-     */
-    public static boolean checkObjAllFieldsIsNull(Object object) {
-        // 如果对象为null直接返回true
-        if (null == object) {
-            return true;
-        }
-        try {
-            // 挨个获取对象属性值
-            for (Field f : object.getClass().getDeclaredFields()) {
-                f.setAccessible(true);
-                // 如果有一个属性值不为null，且值不是空字符串，就返回false
-                if (f.get(object) != null && StringUtils.isNotBlank(f.get(object).toString())) {
-                    return false;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
+//    /**
+//     * 判断属性中的所有内容为空
+//     *
+//     * @param object
+//     * @return
+//     */
+//    public static boolean checkObjAllFieldsIsNull(Object object) {
+//        // 如果对象为null直接返回true
+//        if (null == object) {
+//            return true;
+//        }
+//        try {
+//            // 挨个获取对象属性值
+//            for (Field f : object.getClass().getDeclaredFields()) {
+//                f.setAccessible(true);
+//                // 如果有一个属性值不为null，且值不是空字符串，就返回false
+//                if (f.get(object) != null && StringUtils.isNotBlank(f.get(object).toString())) {
+//                    return false;
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return true;
+//    }
 }

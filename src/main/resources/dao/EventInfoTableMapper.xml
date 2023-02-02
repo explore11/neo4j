@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hr.neo4j.dao.EventInfoTableMapper">
+    <resultMap type="com.hr.neo4j.base.EventInfoTable" id="EventInfoTableResult">
+        <result property="id" column="id"/>
+        <result property="address" column="address"/>
+        <result property="nuclearPower" column="nuclear_power"/>
+        <result property="eventDate" column="event_date"/>
+        <result property="eventCode" column="event_code"/>
+        <result property="eventLevel" column="event_level"/>
+        <result property="eventDesc" column="event_desc"/>
+        <result property="powerPlantUnit" column="power_plant_unit"/>
+        <result property="stackType" column="stack_type"/>
+        <result property="powerPlantActivity" column="power_plant_activity"/>
+        <result property="runStatus" column="run_status"/>
+        <result property="team" column="team"/>
+        <result property="rate" column="rate"/>
+        <result property="directCause" column="direct_cause"/>
+        <result property="rootCause" column="root_cause"/>
+        <result property="involveSystem" column="involve_system"/>
+        <result property="involveFacility" column="involve_facility"/>
+        <result property="affectFacility" column="affect_facility"/>
+        <result property="eventDetectionAndProtection" column="event_detection_and_protection"/>
+        <result property="eventConsequence" column="event_consequence"/>
+        <result property="processMeasure" column="process_measure"/>
+        <result property="criticalSensitiveEquipment" column="critical_sensitive_equipment"/>
+        <result property="digestByCh" column="digest_by_ch"/>
+        <result property="digestByEn" column="digest_by_en"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+    </resultMap>
+
+    <sql id="selectEventInfoTableVo">
+        select id, address, nuclear_power, event_date, event_code, event_level, event_desc, power_plant_unit, stack_type, power_plant_activity, run_status, team, rate, direct_cause, root_cause, involve_system, involve_facility, affect_facility, event_detection_and_protection, event_consequence, process_measure, critical_sensitive_equipment, digest_by_ch, digest_by_en, is_delete, create_time, update_time, create_by, update_by from event_info_table
+    </sql>
+
+    <insert id="batchSaveData" parameterType="java.util.ArrayList">
+        insert into event_info_table
+        (
+            id,
+            address,
+            nuclear_power,
+            event_date,
+            event_code,
+            event_level,
+            event_desc,
+            power_plant_unit,
+            stack_type,
+            power_plant_activity,
+            run_status,
+            team,
+            rate,
+            direct_cause,
+            root_cause,
+            involve_system,
+            involve_facility,
+            affect_facility,
+            event_detection_and_protection,
+            event_consequence,
+            process_measure,
+            critical_sensitive_equipment,
+            digest_by_ch,
+            digest_by_en,
+            is_delete,
+            create_time,
+            update_time,
+            create_by,
+            update_by
+        )
+        values
+        <foreach collection="eventInfoTableList" separator="," item="eventInfoTable" index="index">
+        (
+            uuid(),
+            #{eventInfoTable.address},
+            #{eventInfoTable.nuclearPower},
+            #{eventInfoTable.eventDate},
+            #{eventInfoTable.eventCode},
+            #{eventInfoTable.eventLevel},
+            #{eventInfoTable.eventDesc},
+            #{eventInfoTable.powerPlantUnit},
+            #{eventInfoTable.stackType},
+            #{eventInfoTable.powerPlantActivity},
+            #{eventInfoTable.runStatus},
+            #{eventInfoTable.team},
+            #{eventInfoTable.rate},
+            #{eventInfoTable.directCause},
+            #{eventInfoTable.rootCause},
+            #{eventInfoTable.involveSystem},
+            #{eventInfoTable.involveFacility},
+            #{eventInfoTable.affectFacility},
+            #{eventInfoTable.eventDetectionAndProtection},
+            #{eventInfoTable.eventConsequence},
+            #{eventInfoTable.processMeasure},
+            #{eventInfoTable.criticalSensitiveEquipment},
+            #{eventInfoTable.digestByCh},
+            #{eventInfoTable.digestByEn},
+            0,
+            #{eventInfoTable.createTime},
+            #{eventInfoTable.updateTime},
+            #{eventInfoTable.createBy},
+            #{eventInfoTable.updateBy}
+        )
+        </foreach>
+    </insert>
+</mapper>

@@ -4,10 +4,7 @@ import com.hr.neo4j.service.ReaderDataService;
 import com.hr.neo4j.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -30,6 +27,16 @@ public class ReaderDataController {
     @PostMapping("/ImportData")
     public Result ImportData(@RequestParam("file") MultipartFile file) throws IOException {
         Boolean flag = readerDataService.ImportData(file);
+        return Result.success(flag);
+    }
+
+    /**
+     * 删除所有关系、节点数据
+     */
+    @ApiOperation("删除所有关系、节点数据")
+    @DeleteMapping("/delAllData")
+    public Result delAllData() {
+        Boolean flag = readerDataService.delAllData();
         return Result.success(flag);
     }
 
